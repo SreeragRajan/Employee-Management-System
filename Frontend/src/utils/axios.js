@@ -1,6 +1,6 @@
 import axios from "axios"
 
 export const axiosInstance = axios.create({
-    baseURL: "http://localhost:3000/api",
+    baseURL: "https://employee-management-system-793m.vercel.app/api",
     withCredentials: true,
 })
