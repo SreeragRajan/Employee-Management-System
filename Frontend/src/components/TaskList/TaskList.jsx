@@ -5,15 +5,15 @@ import NewTask from './NewTask'
 import CompleteTask from './CompleteTask'
 import FailedTask from './FailedTask'
 
-const TaskList = ({ data }) => {
+const TaskList = ({ data, refreshTasks }) => {
     return (
-        <div id='tasklist' className='h-72 overflow-x-auto flex flex-wrap items-center justify-start gap-5 w-full py-1 mt-16'>
+        <div id='tasklist' className='min-h-1/2 overflow-x-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 lg:gap-4 w-full mt-16'>
             {data?.tasks?.map((task, idx) => {
                 if (task.active) {
-                    return <AcceptTask key={idx} userId={data._id} task={task} />
+                    return <AcceptTask key={idx} userId={data._id} task={task} refreshTasks={refreshTasks} />
                 }
                 if (task.newTask) {
-                    return <NewTask key={idx} userId={data._id} task={task} />
+                    return <NewTask key={idx} userId={data._id} task={task} refreshTasks={refreshTasks} />
                 }
                 if (task.completed) {
                     return <CompleteTask key={idx} task={task} />

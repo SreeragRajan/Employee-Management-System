@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { axiosInstance } from "../../utils/axios";
+import { Eye, EyeOff } from "lucide-react";
 
 const Signup = () => {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false); // Fixed variable name
 
   const validateForm = () => {
     if (!fullName.trim() || !email.trim() || !password.trim()) {
@@ -19,7 +21,7 @@ const Signup = () => {
       return false;
     }
     if (fullName.length < 4) {
-      toast.error("fullName must be at least 4 characters long");
+      toast.error("Full Name must be at least 4 characters long");
       return false;
     }
     if (password.length < 6) {
@@ -33,7 +35,7 @@ const Signup = () => {
     if (!validateForm()) return;
 
     try {
-      const response = await axiosInstance.post(
+      await axiosInstance.post(
         "/auth/register",
         { fullName, email, password },
         { withCredentials: true }
@@ -56,13 +58,11 @@ const Signup = () => {
 
   return (
     <div className="flex h-screen w-screen items-center justify-center">
-      <div className="border-2 rounded-xl border-sky-600 px-20 py-10">
+      <div>
         <h1 className="text-4xl font-semibold mb-10 text-center">Register</h1>
         <form
-          onSubmit={(e) => {
-            submitHandler(e);
-          }}
-          className="flex flex-col gap-3 items-center justify-center"
+          onSubmit={submitHandler}
+          className="flex flex-col gap-2 md:gap-3 items-center justify-center"
         >
           <input
             type="text"
@@ -71,40 +71,44 @@ const Signup = () => {
             placeholder="Full Name"
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
-            className="text-sm outline-none bg-transparent border-2 border-sky-600 py-3 px-6 w-80 rounded-full placeholder:text-gray-400"
+            className="text-sm outline-none bg-transparent border-2 border-sky-600 py-3 px-6 w-64 md:w-80 rounded-full placeholder:text-gray-400"
             required
           />
           <input
             value={email}
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
+            onChange={(e) => setEmail(e.target.value)}
             required
-            className="text-sm outline-none bg-transparent border-2 border-sky-600 py-3 px-6 w-80 rounded-full placeholder:text-gray-400"
+            className="text-sm outline-none bg-transparent border-2 border-sky-600 py-3 px-6 w-64 md:w-80 rounded-full placeholder:text-gray-400"
             type="email"
             placeholder="Email"
           />
-          <input
-            value={password}
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
-            required
-            className="text-sm outline-none bg-transparent border-2 border-sky-600 py-3 px-6 w-80 rounded-full placeholder:text-gray-400"
-            type="password"
-            placeholder="Password"
-          />
+          <div className="relative w-64 md:w-80">
+            <input
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="text-sm outline-none bg-transparent border-2 border-sky-600 py-3 px-6 w-full rounded-full placeholder:text-gray-400 pr-10"
+              type={showPassword ? "text" : "password"}
+              placeholder="Password"
+            />
+            <span
+              onClick={() => setShowPassword((prev) => !prev)}
+              className="cursor-pointer absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500"
+            >
+              {showPassword ? <Eye /> : <EyeOff />}
+            </span>
+          </div>
           <button
             type="submit"
-            className="mt-4 w-80 text-white border-none outline-none hover:bg-sky-700 font-medium bg-sky-600 py-3 px-6 rounded-full placeholder:text-white"
+            className="mt-2 md:mt-4 w-64 md:w-80 text-sm md:text-base text-white border-none outline-none hover:bg-sky-700 font-medium bg-sky-600 py-3 px-6 rounded-full placeholder:text-white"
           >
             Register
           </button>
         </form>
         <div className="mt-4">
-          <p className="text-sm  text-center">
-            Already have an account ?{" "}
-            <Link to={"/login"} className="text-sky-500 hover:underline">
+          <p className="text-xs md:text-sm text-center">
+            Already have an account?{" "}
+            <Link to="/login" className="text-sky-500 hover:underline">
               Login
             </Link>
           </p>

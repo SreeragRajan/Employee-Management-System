@@ -25,7 +25,7 @@ const AdminDashboard = (props) => {
   }, []);
 
   return (
-    <div className="h-screen w-full p-7">
+    <div className="h-screen w-full p-2 md:p-10">
       <Header changeUser={props.changeUser} />
       <CreateTask userData={userData} refreshTasks={fetchAllUsers} />
       <AllTask userData={userData} refreshTasks={fetchAllUsers} />

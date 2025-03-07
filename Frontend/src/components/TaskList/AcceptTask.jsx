@@ -1,10 +1,13 @@
 import React from 'react';
 import { axiosInstance } from '../../utils/axios';
+import toast from 'react-hot-toast';
 
-const AcceptTask = ({ userId, task }) => {
+const AcceptTask = ({ userId, task, refreshTasks }) => {
     const handleTaskCompleted = async () => {
         try {
             await axiosInstance.put("/task/completed", { userId, taskId: task._id });
+            toast.success("Task Completed");
+            refreshTasks();
         } catch (error) {
             console.log("Error in task completed function:", error.response?.data?.message || error.message);
         }
@@ -13,6 +16,8 @@ const AcceptTask = ({ userId, task }) => {
     const handleTaskFailed = async () => {
         try {
             await axiosInstance.put("/task/failed", { userId, taskId: task._id });
+            toast.success("Task Failed");
+            refreshTasks();
         } catch (error) {
             console.log("Error in task failed function:", error.response?.data?.message || error.message);
         }
@@ -24,7 +29,7 @@ const AcceptTask = ({ userId, task }) => {
     });
 
     return (
-        <div className='relative flex-shrink-0 h-full w-[300px] p-5 bg-yellow-400 rounded-xl'>
+        <div className='relative flex-shrink-0 h-72 w-full p-3 md:p-5 bg-yellow-400 rounded-xl'>
             <div className='flex justify-between items-center'>
                 <h3 className='bg-red-600 text-sm px-3 py-1 rounded'>{task.category}</h3>
                 <h4 className='text-sm'>{formattedDate}</h4>
@@ -36,7 +41,7 @@ const AcceptTask = ({ userId, task }) => {
             <div className='absolute bottom-3 left-3'>
                 <button 
                     onClick={handleTaskCompleted} 
-                    className='bg-green-500 rounded font-medium py-1 px-2 text-xs'
+                    className='bg-green-500 rounded font-medium p-1.5 text-sm'
                 >
                     Mark as Completed
                 </button>
@@ -44,7 +49,7 @@ const AcceptTask = ({ userId, task }) => {
             <div className='absolute bottom-3 right-3'>
                 <button 
                     onClick={handleTaskFailed} 
-                    className='bg-red-500 rounded font-medium py-1 px-2 text-xs'
+                    className='bg-red-500 rounded font-medium p-1.5 text-sm'
                 >
                     Mark as Failed
                 </button>

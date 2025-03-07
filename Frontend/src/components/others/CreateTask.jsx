@@ -34,14 +34,6 @@ const CreateTask = ({ userData, refreshTasks }) => {
     try {
       let assignedUser = userData.find((user) => user.fullName === assignTo);
 
-      // if (!assignedUser) {
-      //     // Create a new user if not found
-      //     const newUserRes = await axiosInstance.post('/user/create', { fullName: assignTo });
-      //     assignedUser = newUserRes.data;
-      //     setUserData([...userData, assignedUser]); // Update state
-      //     toast.success("New user created!");
-      // }
-
       // Create the task
       const taskData = {
         userId: assignedUser._id,
@@ -73,25 +65,25 @@ const CreateTask = ({ userData, refreshTasks }) => {
   };
 
   return (
-    <div className="p-5 bg-[#1c1c1c] mt-5 rounded">
+    <div className="p-2 md:p-5 bg-[#1c1c1c] mt-5 rounded">
       <form
         onSubmit={handleSubmit}
-        className="flex flex-wrap w-full items-start justify-between"
+        className="flex flex-col md:flex-row flex-wrap w-full items-start justify-between"
       >
-        <div className="w-1/2">
+        <div className="w-full md:w-3/5 lg:w-1/2">
           <div>
             <h3 className="text-sm text-gray-300 mb-0.5">Task Title</h3>
             <input
               value={taskTitle}
               onChange={(e) => setTaskTitle(e.target.value)}
-              className="text-sm py-1 px-2 w-4/5 rounded outline-none bg-transparent border-[1px] border-gray-400 mb-4"
+              className="text-sm py-1 px-2 w-full md:w-4/5 rounded outline-none bg-transparent border-[1px] border-gray-400 mb-4"
               type="text"
               placeholder="Enter task title"
               required
             />
           </div>
-          <div className="w-4/5">
-          <h3 className="text-sm text-gray-300 mb-0.5">Date</h3>
+          <div className="w-full md:w-4/5">
+            <h3 className="text-sm text-gray-300 mb-0.5">Date</h3>
             <input
               type="date"
               value={taskDate}
@@ -106,25 +98,28 @@ const CreateTask = ({ userData, refreshTasks }) => {
             <select
               value={assignTo}
               onChange={(e) => setAssignTo(e.target.value)}
-              className="text-sm py-1 px-2 w-4/5 rounded outline-none bg-transparent border-[1px] border-gray-400 mb-4"
+              className="text-sm py-1 px-2 w-full md:w-4/5 rounded outline-none bg-transparent border-[1px] border-gray-400 mb-4"
             >
               <option className="text-white bg-black" value="" disabled>
                 Select a user
               </option>
               {userData.map((user) => (
-                <option  className="text-white bg-black" key={user._id} value={user.fullName}>
+                <option
+                  className="text-white bg-black"
+                  key={user._id}
+                  value={user.fullName}
+                >
                   {user.fullName}
                 </option>
               ))}
             </select>
-        
           </div>
           <div>
             <h3 className="text-sm text-gray-300 mb-0.5">Category</h3>
             <select
               value={category}
               onChange={(e) => setCategory(e.target.value)}
-              className="text-sm py-1 px-2 w-4/5 rounded outline-none bg-transparent border-[1px] border-gray-400 mb-4"
+              className="text-sm py-1 px-2 w-full md:w-4/5 rounded outline-none bg-transparent border-[1px] border-gray-400 mb-4"
             >
               <option className="text-white bg-black" value="" disabled>
                 Select category
@@ -138,7 +133,7 @@ const CreateTask = ({ userData, refreshTasks }) => {
           </div>
         </div>
 
-        <div className="w-2/5 flex flex-col items-start">
+        <div className="w-full md:w-2/5 flex flex-col items-start">
           <h3 className="text-sm text-gray-300 mb-0.5">Description</h3>
           <textarea
             value={taskDescription}
