@@ -1,8 +1,6 @@
 import axios from "axios"
 
-const apiUrl = import.meta.env.VITE_API_URL;
-
 export const axiosInstance = axios.create({
-    baseURL: apiUrl,
+    baseURL: "https://employee-management-system-leed.onrender.com/api",
     withCredentials: true,
 })
