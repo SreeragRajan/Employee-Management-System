@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "*",
+    origin: "https://employee-management-system-pi-seven.vercel.app",
     credentials: true,
   })
 );
