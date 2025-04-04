@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "https://employee-management-system-pi-seven.vercel.app",
+    origin: "https://employee-management-system-frontend-mikh.onrender.com",
     credentials: true,
   })
 );
