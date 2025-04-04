@@ -23,7 +23,7 @@ const Login = () => {
       setUser(response.data);
 
       window.location.reload();
-      // Use response.data.role instead of user?.role
+      
       response.data.role === "employee"
         ? navigate("/employee")
         : navigate("/admin");
