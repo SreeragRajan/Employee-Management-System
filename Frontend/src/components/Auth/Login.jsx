@@ -22,11 +22,9 @@ const Login = () => {
       toast.success("Login Successful");
       setUser(response.data);
 
-      if (response.data.role === "employee") {
-        navigate("/employee");
-      } else {
-        navigate("/admin");
-      }
+      response.data.role === "employee"
+      ? navigate("/employee")
+      : navigate("/admin");
     } catch (err) {
       toast.error(err.response?.data?.message || "Login failed");
       setUser(null);
