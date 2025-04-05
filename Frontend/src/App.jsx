@@ -9,20 +9,20 @@ import AdminDashboard from "./components/Dashboard/AdminDashboard";
 import { AuthContext } from "./context/AuthProvider";
 import { axiosInstance } from "./utils/axios.js";
 
-const ProtectedRoute = ({ children, allowedRoles }) => {
-  const [user] = useContext(AuthContext);
-  
-  if (!user) {
-    return <Navigate to="/login" replace />;
-  }
+// const ProtectedRoute = ({ children, allowedRoles }) => {
+//   const [user] = useContext(AuthContext);
 
-  if (!allowedRoles.includes(user?.role)) {
-    const redirectPath = user?.role === "admin" ? "/admin" : "/employee";
-    return <Navigate to={redirectPath} replace />;
-  }
+//   if (!user) {
+//     return <Navigate to="/login" replace />;
+//   }
 
-  return children;
-};
+//   if (!allowedRoles.includes(user?.role)) {
+//     const redirectPath = user?.role === "admin" ? "/admin" : "/employee";
+//     return <Navigate to={redirectPath} replace />;
+//   }
+
+//   return children;
+// };
 
 const App = () => {
   const navigate = useNavigate();
@@ -67,22 +67,11 @@ const App = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
 
-      <Route
-        path="/admin"
-        element={
-          <ProtectedRoute allowedRoles={["admin"]}>
-            <AdminDashboard changeUser={setUser} />
-          </ProtectedRoute>
-        }
-      />
+      <Route path="/admin" element={<AdminDashboard changeUser={setUser} />} />
 
       <Route
         path="/employee"
-        element={
-          <ProtectedRoute allowedRoles={["employee"]}>
-            <EmployeeDashboard changeUser={setUser} data={user} />
-          </ProtectedRoute>
-        }
+        element={<EmployeeDashboard changeUser={setUser} data={user} />}
       />
     </Routes>
   );
