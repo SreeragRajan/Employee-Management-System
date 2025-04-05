@@ -26,7 +26,7 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
 
 const App = () => {
   const navigate = useNavigate();
-  const { user, setUser } = useContext(AuthContext); // Destructure correctly
+  const [user, setUser] = useContext(AuthContext); 
   const [loading, setLoading] = useState(true);
 
   const checkAuth = async () => {
