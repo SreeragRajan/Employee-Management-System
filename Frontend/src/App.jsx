@@ -10,8 +10,8 @@ import { AuthContext } from "./context/AuthProvider";
 import { axiosInstance } from "./utils/axios.js";
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
-  const [user] = useContext(AuthContext);
-  
+  const { user } = useContext(AuthContext); // Destructure correctly
+
   if (!user) {
     return <Navigate to="/login" replace />;
   }
@@ -26,26 +26,23 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
 
 const App = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useContext(AuthContext);
-  const [loading, setLoading] = useState(true); // Loader state
+  const { user, setUser } = useContext(AuthContext); // Destructure correctly
+  const [loading, setLoading] = useState(true);
 
   const checkAuth = async () => {
     try {
       const res = await axiosInstance.get("/auth/checkAuth");
-      setUser(res.data.data);
+      const authenticatedUser = res.data.data;
+      setUser(authenticatedUser);
 
-      if (res.data.data?.role === "admin") {
-        navigate("/admin");
-      } else if (res.data.data?.role === "employee") {
-        navigate("/employee");
+      // Navigate only if not already on a valid route
+      if (!window.location.pathname.includes('/admin') && !window.location.pathname.includes('/employee')) {
+        navigate(authenticatedUser?.role === "admin" ? "/admin" : "/employee");
       }
     } catch (error) {
-      console.error(
-        "Error checking auth:",
-        error.response?.data || error.message
-      );
+      console.error("Error checking auth:", error.response?.data || error.message);
     } finally {
-      setLoading(false); // Hide loader after authentication check
+      setLoading(false);
     }
   };
 
@@ -66,7 +63,6 @@ const App = () => {
       <Route path="/" element={<Welcome />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
-
       <Route
         path="/admin"
         element={
@@ -75,7 +71,6 @@ const App = () => {
           </ProtectedRoute>
         }
       />
-
       <Route
         path="/employee"
         element={
@@ -84,6 +79,7 @@ const App = () => {
           </ProtectedRoute>
         }
       />
+      <Route path="*" element={<Navigate to="/" replace />} /> {/* Catch-all route */}
     </Routes>
   );
 };
