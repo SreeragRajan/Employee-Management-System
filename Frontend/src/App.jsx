@@ -10,7 +10,7 @@ import { AuthContext } from "./context/AuthProvider";
 import { axiosInstance } from "./utils/axios.js";
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
-  const { user } = useContext(AuthContext); // Destructure correctly
+  const [ user ] = useContext(AuthContext); 
 
   if (!user) {
     return <Navigate to="/login" replace />;
