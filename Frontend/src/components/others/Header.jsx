@@ -30,7 +30,6 @@ const Header = ({ data, changeUser }) => {
       toast.error("Error in Logout")
       console.log("Error in logout:", error.response?.message || error.message);
     }
-  
   };
 
   return (
