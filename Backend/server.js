@@ -1,4 +1,5 @@
 import express from "express";
+import path from "path";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -28,6 +29,11 @@ app.use(
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/task", taskRoutes);
+
+app.use(express.static(path.join(__dirname, '../Frontend/dist')));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../Frontend/dist/index.html'));
+});
 
 app.listen(PORT, () => {
   console.log(`Server is running on port: ${PORT}`);
